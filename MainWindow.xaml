@@ -1,0 +1,51 @@
+﻿<Window x:Class="MemoryDump.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:util="clr-namespace:Wpf.Util"
+        Title="Application memory dumper" Height="600" Width="750"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <ListView
+            ItemsSource="{Binding ProcessList}"
+            Margin="12,12,12,43"
+            SelectionChanged="ListView_SelectionChanged"
+            SelectionMode="Single"
+            util:GridViewSort.AutoSort="True">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn
+                        Width="60"
+                        DisplayMemberBinding="{Binding Id}"
+                        util:GridViewSort.PropertyName="Id">
+                        <GridViewColumnHeader
+                            HorizontalContentAlignment="Left"
+                            Padding="10,0,0,0"
+                            Content="Id" />
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Width="200"
+                        DisplayMemberBinding="{Binding ProcessName}"
+                        util:GridViewSort.PropertyName="ProcessName">
+                        <GridViewColumnHeader
+                            HorizontalContentAlignment="Left"
+                            Padding="10,0,0,0"
+                            Content="Process" />
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Width="420"
+                        DisplayMemberBinding="{Binding MainWindowTitle}"
+                        util:GridViewSort.PropertyName="MainWindowTitle">
+                        <GridViewColumnHeader
+                            HorizontalContentAlignment="Left"
+                            Padding="10,0,0,0"
+                            Content="Title" />
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Margin="12,0,0,12" Content="Refresh" Click="RefreshProcesses" Name="refreshButton" HorizontalAlignment="Left" Width="76" Height="25" VerticalAlignment="Bottom" />
+        <Button Margin="0,0,12,12" Content="Create memory dump" Click="MemoryDumpProcess" Name="dumpButton" HorizontalAlignment="Right" Width="168" Height="25" VerticalAlignment="Bottom" Visibility="Visible" />
+        <ProgressBar Height="25" Margin="12,0,186,12" Name="progressBar" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="Hidden" />
+        <Label Content="" Height="28" HorizontalAlignment="Right" Margin="0,0,12,9" Name="progressText" VerticalAlignment="Bottom" Width="168" HorizontalContentAlignment="Center" Visibility="Hidden" />
+    </Grid>
+</Window>
