@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace MemoryDump
 {
@@ -77,7 +79,7 @@ namespace MemoryDump
         /// <returns>Whether or not the command completed successfully</returns>
         public static bool UserDump(Process process, string dumpFile)
         {
-            string arch = (Environment.Is64BitOperatingSystem) ? "x64" : "x86";
+            string arch = (process.Is64BitProcess()) ? "x64" : "x86";
 
             string userdump = Path.Combine(userDumpDir, arch, userDumpExe);
 
@@ -88,5 +90,26 @@ namespace MemoryDump
 
             return stdout.Contains("The process was dumped successfully.");
         }
+
+        #region 64 detection
+        
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs((UnmanagedType.Bool))]
+        public static extern bool IsWow64Process([In] IntPtr processHandle,
+                                                 [Out, MarshalAs(UnmanagedType.Bool)] out bool wow64Process);
+
+        private static bool Is64BitProcess(this Process process)
+        {
+            if (!Environment.Is64BitOperatingSystem)
+                return false;
+
+            bool isWow64Process;
+            if (!IsWow64Process(process.Handle, out isWow64Process))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            return !isWow64Process;
+        }
+
+        #endregion
     }
 }
