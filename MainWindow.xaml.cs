@@ -122,8 +122,9 @@ namespace MemoryDump
             if (worker == null || dumpProcess == null)
                 return;
 
-            string dumpFile = Path.GetTempFileName();
-            string zipFile = dumpFile + ".zip";
+            string baseName = CreateBaseName(dumpProcess.ProcessName);
+            string dumpFile = Path.Combine(Path.GetTempPath(), baseName + ".dmp");
+            string zipFile = Path.Combine(Path.GetTempPath(), baseName + ".zip");
 
             try
             {
@@ -142,24 +143,35 @@ namespace MemoryDump
                 }
 
                 worker.ReportProgress(0, "Moving into place");
-                string currentDir = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
-                string dateString = string.Format("{0:yyyy.MM.dd_H.mm.ss}", DateTime.Now);
-                string username = WindowsIdentity.GetCurrent().Name.Replace('\\', '-');
-                string fileName = Path.Combine(currentDir,
-                                               string.Format("{0}_{1}_{2}.zip",
-                                                             dumpProcess.ProcessName,
-                                                             username,
-                                                             dateString));
-                File.Move(zipFile, fileName);
+                string zipName = baseName + ".zip";
+                File.Move(zipFile, zipName);
 
                 worker.ReportProgress(0, "Done");
-                ShowDialog(string.Format("Process dumped to {0}", fileName));
+                ShowDialog(string.Format("Process dumped to {0}", zipName));
             }
             finally
             {
-                File.Delete(dumpFile);
-                File.Delete(zipFile);
+                if (File.Exists(dumpFile))
+                    File.Delete(dumpFile);
+
+                if (File.Exists(zipFile))
+                    File.Delete(zipFile);
             }
+        }
+
+        #endregion
+
+        #region Private helpers
+
+        /// <summary>
+        /// Create a "unique" base name from the given process name
+        /// </summary>
+        private static string CreateBaseName(string processName)
+        {
+            string dateString = string.Format("{0:yyyy.MM.dd_HH.mm.ss}", DateTime.Now);
+            string username = WindowsIdentity.GetCurrent().Name.Replace('\\', '-');
+
+            return string.Format("{0}_{1}_{2}", processName, username, dateString);
         }
 
         #endregion
