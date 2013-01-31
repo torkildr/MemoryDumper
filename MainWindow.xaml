@@ -4,6 +4,20 @@
         xmlns:util="clr-namespace:Wpf.Util"
         Title="Application memory dumper" Height="600" Width="750"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="5,0,0,0" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <ListView
             ItemsSource="{Binding ProcessList}"
@@ -17,28 +31,19 @@
                         Width="60"
                         DisplayMemberBinding="{Binding Id}"
                         util:GridViewSort.PropertyName="Id">
-                        <GridViewColumnHeader
-                            HorizontalContentAlignment="Left"
-                            Padding="10,0,0,0"
-                            Content="Id" />
+                        <GridViewColumnHeader Content="Id" />
                     </GridViewColumn>
                     <GridViewColumn
                         Width="200"
                         DisplayMemberBinding="{Binding ProcessName}"
                         util:GridViewSort.PropertyName="ProcessName">
-                        <GridViewColumnHeader
-                            HorizontalContentAlignment="Left"
-                            Padding="10,0,0,0"
-                            Content="Process" />
+                        <GridViewColumnHeader Content="Process" />
                     </GridViewColumn>
                     <GridViewColumn
                         Width="420"
                         DisplayMemberBinding="{Binding MainWindowTitle}"
                         util:GridViewSort.PropertyName="MainWindowTitle">
-                        <GridViewColumnHeader
-                            HorizontalContentAlignment="Left"
-                            Padding="10,0,0,0"
-                            Content="Title" />
+                        <GridViewColumnHeader Content="Title" />
                     </GridViewColumn>
                 </GridView>
             </ListView.View>

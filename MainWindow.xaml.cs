@@ -54,7 +54,15 @@ namespace MemoryDump
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedProcess = e.AddedItems[0] as Process;
+            // This seems to fire in some cases (like clicking "refresh" toggles deselect)
+            if (e.AddedItems.Count > 0)
+            {
+                _selectedProcess = e.AddedItems[0] as Process;
+            }
+            else
+            {
+                _selectedProcess = null;
+            }
         }
 
         private static void ShowDialog(string text, bool error = false)

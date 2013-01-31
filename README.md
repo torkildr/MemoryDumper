@@ -21,3 +21,5 @@ You will need this to compile, so you should probably do this.
 **This utility** is licensed under the **MIT license**, see LICENSE.txt for more information.
 
 The **7za.exe** utility is licensed under **GNU LGPL** (see zip\license.txt for more information).
+
+The memory dump icon is from the [*Nuvola* icon set](http://www.icon-king.com/projects/nuvola/) by Davic Vignoni, and is licensed under GNU LGPL 2.1

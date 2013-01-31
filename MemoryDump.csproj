@@ -17,10 +17,6 @@
     <WarningLevel>4</WarningLevel>
     <OutputPath Condition=" '$(TeamBuildOutDir)'=='' ">bin\$(Configuration)\</OutputPath>
     <OutputPath Condition=" '$(TeamBuildOutDir)'!='' ">$(TeamBuildOutDir)\$(MSBuildProjectName)</OutputPath>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -38,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>memory.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -109,6 +108,9 @@
   <ItemGroup>
     <UserDumpFiles Include="userdump8.1\**\*.*" />
     <ZipFiles Include="zip\**\*.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="memory.ico" />
   </ItemGroup>
   <Target Name="AfterBuild">
     <Message Importance="high" Text="Copying external applications" />
